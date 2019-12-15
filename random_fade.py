@@ -2,29 +2,28 @@
 
 from tree import RGBXmasTree, PixelRange
 from colorzero import Color
-from random import randrange
+from random import choice
 
 steps = 100
 colors = [Color('red'), Color('green'), Color('blue')]
 num_colors = len(colors)
 
-gradients = [[]] * num_colors
-for i in range(num_colors):
-    gradients[i] = list(colors[i].gradient(colors[(i+1) % num_colors], steps=steps))
+def grad(tree):
+    """Generate an array of random color gradients to cycle through. Leaving the star gold."""
+
+    pixel_gradients = [[Color('gold')] * steps] * len(tree)
+    for i in PixelRange.NOT_STAR:
+        old_color = tree[i].color
+        new_color = choice(colors)
+        pixel_gradients[i] = list(old_color.gradient(new_color, steps=steps))
+    return [*zip(*pixel_gradients)] # transpose
 
 if __name__ == '__main__':
     tree = RGBXmasTree()
 
-    arr = [[Color('gold')] * (num_colors * steps)] * len(tree.value)
-    for i in PixelRange.NOT_STAR:
-        arr[i] = []
-        for j in range(num_colors):
-            arr[i] += gradients[(i+j) % num_colors]
-    trans = [*zip(*arr)]
-
     try:
         while True:
-            for val in trans:
-                tree.value = val
+            for value in grad(tree):
+                tree.value = value
     except (KeyboardInterrupt, SystemExit):
         tree.off()
