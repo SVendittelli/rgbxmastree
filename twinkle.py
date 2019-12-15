@@ -5,11 +5,10 @@ from colorzero import Color
 from time import sleep
 from random import choice
 
-tree = RGBXmasTree()
-
 colors = [Color('red'), Color('green'), Color('blue'), Color('purple'), Color('orange'), Color('navy')]
 
 if __name__ == '__main__':
+    tree = RGBXmasTree()
     try:
         tree.value = [choice(colors) for i in PixelRange.ALL]
         tree.set_range(PixelRange.STAR, Color('gold'))
