@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name: 'xmas-tree',
-    script: './twinkle.py',
+    script: './woosh.py',
     interpreter: '/usr/bin/python3',
     watch: true
   }]
