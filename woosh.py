@@ -3,7 +3,7 @@
 from tree import RGBXmasTree, PixelRange
 from colorzero import Color
 from time import sleep
-from random import choice, randrange, triangular
+from random import choice, randrange, uniform
 
 blue = Color('blue')
 red = Color('red')
@@ -12,12 +12,12 @@ if __name__ == '__main__':
     tree = RGBXmasTree()
     try:
         while True:
-            limit = randrange(40, 2200) # expected 1080 (seconds in 18 minutes)
+            limit = randrange(40, 1480) # expected 720 = seconds in 18 minutes / average cycle time for blue (1.5 seconds)
             print('Limit: {}'.format(limit))
 
             count = 0
             while count < limit:
-                sleep(triangular(0.1, 2, 0.6)) # sleep at least 0.1, at most 2, on average 0.6
+                sleep(uniform(0.1, 2)) # expected 1.1
                 tree.set_range(PixelRange.BOTTOM, blue)
                 sleep(0.1)
                 tree.set_range(PixelRange.MIDDLE, blue)
