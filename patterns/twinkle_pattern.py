@@ -10,8 +10,7 @@ colors = [Color('red'), Color('green'), Color('blue'), Color('purple'), Color('o
 
 class Pattern(PatternInterface):
     def apply(self, tree, thread):
-        tree.set_range(PixelRange.STAR, Color('gold'))
-        tree[choice(PixelRange.NOT_STAR)].color = choice(colors)
+        tree.value = [choice(colors) if i != 3 else Color('gold') for i in PixelRange.ALL]
         sleep(0.2)
 
 if __name__ == '__main__':

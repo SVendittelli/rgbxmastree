@@ -32,6 +32,9 @@ class Pattern(PatternInterface):
             tree.off()
             count = count + 1
 
+        if (thread.stopped()):
+            return
+
         # flash red 7 times
         for i in range(7):
             sleep(0.25)

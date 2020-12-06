@@ -7,9 +7,9 @@ colors = [Color('red'), Color('green'), Color('blue')] # add more if you like
 class Pattern(PatternInterface):
     def apply(self, tree, thread):
         for color in colors:
-            if (thread.stopped()):
-                break
             for pixel in tree:
+                if (thread.stopped()):
+                    break
                 pixel.color = color
 
 if __name__ == '__main__':

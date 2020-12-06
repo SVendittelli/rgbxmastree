@@ -1,5 +1,6 @@
 from patterns.pattern_interface import PatternInterface
 from .tree import RGBXmasTree
+from time import sleep
 from colorzero import Color
 
 colors = [Color('red'), Color('green'), Color('blue')] # add more if you like
@@ -10,6 +11,7 @@ class Pattern(PatternInterface):
             if (thread.stopped()):
                 break
             tree.color = color
+            sleep(1)
 
 if __name__ == '__main__':
     tree = RGBXmasTree()
