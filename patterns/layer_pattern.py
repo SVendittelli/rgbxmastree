@@ -6,8 +6,7 @@ from colorzero import Color
 from time import sleep
 
 class Pattern(PatternInterface):
-    def run(tree):
-        print('run!')
+    def apply(self, tree, thread):
         tree.set_range(PixelRange.STAR, Color('gold'))
         sleep(0.15)
         tree.set_range(PixelRange.TOP, Color('red'))

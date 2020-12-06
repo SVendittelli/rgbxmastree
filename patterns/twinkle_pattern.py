@@ -9,8 +9,10 @@ from random import choice
 colors = [Color('red'), Color('green'), Color('blue'), Color('purple'), Color('orange'), Color('navy')]
 
 class Pattern(PatternInterface):
-    def run(tree):
-        pass
+    def apply(self, tree, thread):
+        tree.set_range(PixelRange.STAR, Color('gold'))
+        tree[choice(PixelRange.NOT_STAR)].color = choice(colors)
+        sleep(0.2)
 
 if __name__ == '__main__':
     tree = RGBXmasTree()

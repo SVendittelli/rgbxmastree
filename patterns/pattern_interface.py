@@ -1,3 +1,6 @@
+from stoppable_thread import StoppableThread
+
+
 class PatternInterface:
-    def run(tree):
+    def apply(self, tree, thread):
         pass

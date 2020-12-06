@@ -20,8 +20,11 @@ def grad(tree):
     return [*zip(*pixel_gradients)] # transpose
 
 class Pattern(PatternInterface):
-    def run(tree):
-        pass
+    def apply(self, tree, thread):
+        for value in grad(tree):
+            if (thread.stopped()):
+                break
+            tree.value = value
 
 if __name__ == '__main__':
     tree = RGBXmasTree()

@@ -7,7 +7,7 @@ from colorzero import Color
 colors = [Color('red'), Color('green'), Color('blue')]
 
 class Pattern(PatternInterface):
-    def run(tree):
+    def apply(self, tree, thread):
         tree.set_range(PixelRange.STAR, Color('gold'))
         num_colors = len(colors)
         for i in range(num_colors):

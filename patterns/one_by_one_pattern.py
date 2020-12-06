@@ -5,8 +5,12 @@ from colorzero import Color
 colors = [Color('red'), Color('green'), Color('blue')] # add more if you like
 
 class Pattern(PatternInterface):
-    def run(tree):
-        pass
+    def apply(self, tree, thread):
+        for color in colors:
+            if (thread.stopped()):
+                break
+            for pixel in tree:
+                pixel.color = color
 
 if __name__ == '__main__':
     tree = RGBXmasTree()

@@ -5,8 +5,12 @@ from .tree import RGBXmasTree
 from colorzero import Color, Hue
 
 class Pattern(PatternInterface):
-    def run(tree):
-        pass
+    def apply(self, tree, thread):
+        tree.color = Color('red')
+        for _ in range(360):
+            if (thread.stopped()):
+                break
+            tree.color += Hue(deg=1)
 
 if __name__ == '__main__':
     tree = RGBXmasTree()

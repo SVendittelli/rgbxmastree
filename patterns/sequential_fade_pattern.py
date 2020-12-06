@@ -13,19 +13,22 @@ gradients = [[]] * num_colors
 for i in range(num_colors):
     gradients[i] = list(colors[i].gradient(colors[(i+1) % num_colors], steps=steps))
 
+arr = [[Color('gold')] * (num_colors * steps)] * 25
+for i in PixelRange.NOT_STAR:
+    arr[i] = []
+    for j in range(num_colors):
+        arr[i] += gradients[(i+j) % num_colors]
+trans = [*zip(*arr)] # transpose
+
 class Pattern(PatternInterface):
-    def run(tree):
-        pass
+    def apply(self, tree, thread):
+        for val in trans:
+            if (thread.stopped()):
+                break
+            tree.value = val
 
 if __name__ == '__main__':
     tree = RGBXmasTree()
-
-    arr = [[Color('gold')] * (num_colors * steps)] * len(tree)
-    for i in PixelRange.NOT_STAR:
-        arr[i] = []
-        for j in range(num_colors):
-            arr[i] += gradients[(i+j) % num_colors]
-    trans = [*zip(*arr)] # transpose
 
     try:
         while True:

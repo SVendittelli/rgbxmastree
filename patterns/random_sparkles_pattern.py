@@ -13,8 +13,8 @@ def random_colors(n):
     return [random_color() for i in range(n)]
 
 class Pattern(PatternInterface):
-    def run(tree):
-        pass
+    def apply(self, tree, thread):
+        tree.value = random_colors(25)
 
 if __name__ == '__main__':
     tree = RGBXmasTree()
