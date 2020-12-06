@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
-from tree import RGBXmasTree, PixelRange
+from patterns.pattern_interface import PatternInterface
+from .tree import RGBXmasTree, PixelRange
 from colorzero import Color
 from time import sleep
 from random import choice, randrange, uniform
@@ -8,6 +9,10 @@ from math import ceil, floor
 
 blue = Color('blue')
 red = Color('red')
+
+class Pattern(PatternInterface):
+    def run(tree):
+        pass
 
 if __name__ == '__main__':
     tree = RGBXmasTree()

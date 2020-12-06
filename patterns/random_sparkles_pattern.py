@@ -1,8 +1,7 @@
-from tree import RGBXmasTree
+from patterns.pattern_interface import PatternInterface
+from .tree import RGBXmasTree
 from colorzero import Hue
 from random import random
-
-tree = RGBXmasTree()
 
 def random_color():
     r = random()
@@ -12,6 +11,10 @@ def random_color():
 
 def random_colors(n):
     return [random_color() for i in range(n)]
+
+class Pattern(PatternInterface):
+    def run(tree):
+        pass
 
 if __name__ == '__main__':
     tree = RGBXmasTree()

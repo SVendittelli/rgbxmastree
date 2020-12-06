@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
-from tree import RGBXmasTree, PixelRange
+from patterns.pattern_interface import PatternInterface
+from .tree import RGBXmasTree, PixelRange
 from colorzero import Color
 from random import choice
 
@@ -17,6 +18,10 @@ def grad(tree):
         new_color = choice(colors)
         pixel_gradients[i] = list(old_color.gradient(new_color, steps=steps))
     return [*zip(*pixel_gradients)] # transpose
+
+class Pattern(PatternInterface):
+    def run(tree):
+        pass
 
 if __name__ == '__main__':
     tree = RGBXmasTree()
