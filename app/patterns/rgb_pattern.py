@@ -6,6 +6,8 @@ colors = [Color("red"), Color("green"), Color("blue")]
 
 
 class RGBPattern:
+    """Make the whole tree red, green, then blue in sequence"""
+
     def __init__(self, tree):
         self.tree = tree
 

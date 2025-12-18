@@ -22,6 +22,8 @@ trans = [*zip(*arr)]  # transpose
 
 
 class SequentialFadePattern:
+    """Fade every light except the star through different gradients between red, green, and blue"""
+
     def __init__(self, tree):
         self.tree = tree
 

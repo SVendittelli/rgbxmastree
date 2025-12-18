@@ -1,7 +1,7 @@
 import asyncio
+from random import choice
 
 from colorzero import Color
-from random import choice
 
 from ..pixels import PixelRange
 
@@ -16,6 +16,8 @@ colors = [
 
 
 class FlasherPattern:
+    """Flash the whole tree one of a selection of colours"""
+
     def __init__(self, tree):
         self.tree = tree
 

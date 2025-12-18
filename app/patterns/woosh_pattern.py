@@ -11,6 +11,8 @@ red = Color("red")
 
 
 class WhooshPattern:
+    """Light the tree up green, layer-by-layer, until it randomly flashes red"""
+
     def __init__(self, tree):
         self.tree = tree
 

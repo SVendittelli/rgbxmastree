@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import BackgroundTasks, FastAPI
 
+from .patterns import pattern_names
 from .tree_manager import TreeManager
 
 
@@ -35,7 +36,12 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
-@app.post("/start/{pattern}")
+@app.get("/patterns")
+async def list_patterns():
+    return pattern_names
+
+
+@app.post("/patterns/start/{pattern}")
 async def start_pattern(pattern: str):
     # Create a new background task
     await app.state.manager.run_pattern(pattern)

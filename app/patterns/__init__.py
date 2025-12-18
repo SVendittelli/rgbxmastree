@@ -9,3 +9,20 @@ from .rgb_pattern import RGBPattern
 from .sequential_fade_pattern import SequentialFadePattern
 from .twinkle_pattern import TwinklePattern
 from .woosh_pattern import WhooshPattern
+
+patterns = {
+    "fade": FadePattern,
+    "flasher": FlasherPattern,
+    "hue_cycle": HueCyclePattern,
+    "layer": LayerPattern,
+    "one_by_one": OneByOnePattern,
+    "random_fade": RandomFadePattern,
+    "random_sparkles": RandomSparklesPattern,
+    "rgb": RGBPattern,
+    "sequential_fade": SequentialFadePattern,
+    "twinkle": TwinklePattern,
+    "whoosh": WhooshPattern,
+}
+pattern_names = [
+    {"name": name, "description": pattern.__doc__} for name, pattern in patterns.items()
+]

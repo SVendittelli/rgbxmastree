@@ -16,6 +16,8 @@ def random_colors(n):
 
 
 class RandomSparklesPattern:
+    """Rapidly change each light on the tree to a random colour"""
+
     def __init__(self, tree):
         self.tree = tree
 

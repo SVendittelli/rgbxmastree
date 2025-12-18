@@ -6,6 +6,8 @@ from ..pixels import PixelRange
 
 
 class LayerPattern:
+    """Show a primary coloured tree, layer-by-layer"""
+
     def __init__(self, tree):
         self.tree = tree
 

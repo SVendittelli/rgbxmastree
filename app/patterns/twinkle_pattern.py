@@ -16,6 +16,8 @@ colors = [
 
 
 class TwinklePattern:
+    """Rapidly switch between a range of colours for all lights but the star"""
+
     def __init__(self, tree):
         self.tree = tree
 

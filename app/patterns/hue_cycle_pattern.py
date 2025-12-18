@@ -4,6 +4,8 @@ from colorzero import Color, Hue
 
 
 class HueCyclePattern:
+    """Fade smoothly through every possible hue"""
+
     def __init__(self, tree):
         self.tree = tree
 

@@ -6,6 +6,8 @@ colors = [Color("red"), Color("green"), Color("blue")]
 
 
 class OneByOnePattern:
+    """Cycle every light on the tree between red, green, and blue, one-by-one"""
+
     def __init__(self, tree):
         self.tree = tree
 

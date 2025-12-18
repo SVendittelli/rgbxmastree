@@ -22,6 +22,8 @@ def grad(tree):
 
 
 class RandomFadePattern:
+    """Fade through random colour gradient, leaving the star gold"""
+
     def __init__(self, tree):
         self.tree = tree
 

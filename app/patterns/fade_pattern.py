@@ -9,6 +9,8 @@ num_colors = len(colors)
 
 
 class FadePattern:
+    """Fade smoothly between red, green, and blue for all lights except the star"""
+
     def __init__(self, tree):
         self.tree = tree
 
