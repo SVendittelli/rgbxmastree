@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import BackgroundTasks, FastAPI
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, Field
 
 from .patterns import Pattern, PatternName, pattern_names
 from .tree_manager import TreeManager
@@ -21,6 +22,10 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+class BrightnessRequest(BaseModel):
+    brightness: float = Field(ge=0, le=1)
+
+
 # Lifespan handles setup/teardown
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -32,11 +37,9 @@ async def lifespan(app: FastAPI):
     )
     conn.commit()
 
-    (previous_pattern,) = cursor.execute(
-        "SELECT pattern FROM current_pattern"
-    ).fetchone()
-    if previous_pattern is not None:
-        await app.state.manager.run_pattern(previous_pattern)
+    res = cursor.execute("SELECT pattern FROM current_pattern").fetchone()
+    if res is not None:
+        await app.state.manager.run_pattern(res[0])
 
     app.state.conn = conn
 
@@ -52,18 +55,45 @@ app = FastAPI(
     version="2.0.0",
     redoc_url=None,
     root_path="/api/v1",
+    tags=["brightness", "patterns"],
     lifespan=lifespan,
 )
 
 
-@app.get("/patterns")
+@app.get("/brightness", tags=["brightness"])
+async def get_brightness() -> float:
+    return app.state.manager.tree.brightness
+
+
+@app.post("/brightness", tags=["brightness"])
+async def set_brightness(body: BrightnessRequest) -> float:
+    app.state.manager.tree.brightness = body.brightness
+    return app.state.manager.tree.brightness
+
+
+@app.get("/patterns", tags=["patterns"])
 async def list_patterns() -> list[Pattern]:
     logger.info("Listing patterns")
     return pattern_names
 
 
-@app.post("/patterns/start/{pattern}")
-async def start_pattern(pattern: PatternName) -> str:
+@app.get("/patterns/current", tags=["patterns"])
+async def current_pattern() -> PatternName | None:
+    logger.info("Getting current pattern")
+
+    conn = app.state.conn
+    cursor = conn.cursor()
+    res = cursor.execute(
+        "SELECT pattern FROM current_pattern",
+    ).fetchone()
+    if res is None:
+        return
+
+    return res[0]
+
+
+@app.post("/patterns/start/{pattern}", tags=["patterns"])
+async def start_pattern(pattern: PatternName) -> PatternName:
     logging.info(f"Starting pattern: {pattern}")
     # Create a new background task
     await app.state.manager.run_pattern(pattern)
@@ -78,8 +108,8 @@ async def start_pattern(pattern: PatternName) -> str:
     return pattern
 
 
-@app.post("/stop")
-async def stop_tree() -> None:
+@app.post("/patterns/stop", tags=["patterns"])
+async def stop_pattern() -> None:
     logging.info("Stopping pattern")
     await app.state.manager.stop_current()
 
