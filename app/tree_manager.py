@@ -24,7 +24,7 @@ class TreeManager:
         self.patterns = patterns
 
     async def run_pattern(self, pattern_name: str):
-        await self.stop_current()
+        await self.off()
 
         pattern = self.patterns.get(pattern_name)
         if not pattern:
@@ -36,7 +36,7 @@ class TreeManager:
         # Start the pattern's run method as a task
         self.active_task = asyncio.create_task(instance.run())
 
-    async def stop_current(self):
+    async def off(self):
         if self.active_task:
             self.active_task.cancel()
             try:

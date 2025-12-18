@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 import sqlite3
 from contextlib import asynccontextmanager
 
@@ -45,7 +46,7 @@ async def lifespan(app: FastAPI):
 
     yield
 
-    await app.state.manager.stop_current()
+    await app.state.manager.off()
 
 
 app = FastAPI(
@@ -55,7 +56,7 @@ app = FastAPI(
     version="2.0.0",
     redoc_url=None,
     root_path="/api/v1",
-    tags=["brightness", "patterns"],
+    tags=["brightness", "patterns", "pi"],
     lifespan=lifespan,
 )
 
@@ -111,12 +112,26 @@ async def start_pattern(pattern: PatternName) -> PatternName:
 @app.post("/patterns/stop", tags=["patterns"])
 async def stop_pattern() -> None:
     logging.info("Stopping pattern")
-    await app.state.manager.stop_current()
+    await app.state.manager.off()
 
     conn = app.state.conn
     cursor = conn.cursor()
     cursor.execute("DELETE FROM current_pattern WHERE id = 1")
     conn.commit()
+
+
+@app.post("/pi/reboot", tags=["pi"])
+async def reboot() -> None:
+    logging.info("Rebooting")
+    await app.state.manager.off()
+    os.system("sudo shutdown -r now")
+
+
+@app.post("/pi/shutdown", tags=["pi"])
+async def shutdown() -> None:
+    logging.info("Rebooting")
+    await app.state.manager.off()
+    os.system("sudo shutdown now")
 
 
 # Must be mounted after the API routes or it would capture them
