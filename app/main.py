@@ -1,12 +1,24 @@
 import asyncio
+import logging
 import sqlite3
 from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import BackgroundTasks, FastAPI
+from fastapi.staticfiles import StaticFiles
 
-from .patterns import pattern_names
+from .patterns import Pattern, PatternName, pattern_names
 from .tree_manager import TreeManager
+
+# Configure basic logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+
+# Create a logger instance
+logger = logging.getLogger(__name__)
 
 
 # Lifespan handles setup/teardown
@@ -33,16 +45,26 @@ async def lifespan(app: FastAPI):
     await app.state.manager.stop_current()
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title="RGB Christmas Tree",
+    summary="Control the lights on an RGB LED Christmas Tree.",
+    description="A set of REST APIs for controling a physical rgbxmastree attached to a raspberry pi.",
+    version="2.0.0",
+    redoc_url=None,
+    root_path="/api/v1",
+    lifespan=lifespan,
+)
 
 
 @app.get("/patterns")
-async def list_patterns():
+async def list_patterns() -> list[Pattern]:
+    logger.info("Listing patterns")
     return pattern_names
 
 
 @app.post("/patterns/start/{pattern}")
-async def start_pattern(pattern: str):
+async def start_pattern(pattern: PatternName) -> str:
+    logging.info(f"Starting pattern: {pattern}")
     # Create a new background task
     await app.state.manager.run_pattern(pattern)
 
@@ -53,18 +75,22 @@ async def start_pattern(pattern: str):
         {"pattern": pattern},
     )
     conn.commit()
-    return {"status": f"Pattern {pattern} started"}
+    return pattern
 
 
 @app.post("/stop")
-async def stop_tree():
+async def stop_tree() -> None:
+    logging.info("Stopping pattern")
     await app.state.manager.stop_current()
 
     conn = app.state.conn
     cursor = conn.cursor()
     cursor.execute("DELETE FROM current_pattern WHERE id = 1")
     conn.commit()
-    return {"status": "Tree turned off"}
+
+
+# Must be mounted after the API routes or it would capture them
+app.mount("/", StaticFiles(directory="public", html=True), name="public")
 
 
 def start():
