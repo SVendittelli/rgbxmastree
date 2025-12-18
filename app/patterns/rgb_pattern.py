@@ -2,11 +2,12 @@ import asyncio
 
 from colorzero import Color
 
-colors = [Color('red'), Color('green'), Color('blue')]
+colors = [Color("red"), Color("green"), Color("blue")]
+
 
 class RGBPattern:
     def __init__(self, tree):
-        self.tree= tree
+        self.tree = tree
 
     async def run(self):
         while True:

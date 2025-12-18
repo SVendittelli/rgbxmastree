@@ -1,34 +1,38 @@
 from colorzero import Color
 
+
 def subtract(list1: list, list2: list):
+    """Remove all the items that appear in list2 from list1"""
     return [x for x in list1 if x not in list2]
+
 
 class PixelRange:
     """Ranges of lights on the tree"""
 
     ALL = list(range(25))
 
-    STAR   = [3]
-    TOP    = [2, 18, 13, 4, 10, 22, 21, 9]
+    STAR = [3]
+    TOP = [2, 18, 13, 4, 10, 22, 21, 9]
     MIDDLE = [1, 17, 14, 5, 11, 23, 20, 8]
     BOTTOM = [0, 16, 15, 6, 12, 24, 19, 7]
 
     FRONT = [0, 1, 2, 4, 5, 6]
-    BACK  = [7, 8, 9, 10, 11, 12]
-    LEFT  = [13, 14, 15, 22, 23, 24]
+    BACK = [7, 8, 9, 10, 11, 12]
+    LEFT = [13, 14, 15, 22, 23, 24]
     RIGHT = [16, 17, 18, 19, 20, 21]
 
     NOT_STAR = subtract(ALL, STAR)
 
     FRONT_BRANCH = [13, 14, 15, 16, 17, 18]
-    BACK_BRANCH  = [19, 20, 21, 22, 23, 24]
-    LEFT_BRANCH  = [4, 5, 6, 10, 11, 12]
+    BACK_BRANCH = [19, 20, 21, 22, 23, 24]
+    LEFT_BRANCH = [4, 5, 6, 10, 11, 12]
     RIGHT_BRANCH = [0, 1, 2, 7, 8, 9]
 
     FRONT_SIDE = subtract(FRONT, FRONT_BRANCH)
-    BACK_SIDE  = subtract(BACK, BACK_BRANCH)
-    LEFT_SIDE  = subtract(LEFT, LEFT_BRANCH)
+    BACK_SIDE = subtract(BACK, BACK_BRANCH)
+    LEFT_SIDE = subtract(LEFT, LEFT_BRANCH)
     RIGHT_SIDE = subtract(RIGHT, RIGHT_BRANCH)
+
 
 class Pixel:
     """An individual light on the tree"""

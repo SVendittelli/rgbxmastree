@@ -1,7 +1,20 @@
 import asyncio
 
+from .patterns import (
+    FadePattern,
+    FlasherPattern,
+    HueCyclePattern,
+    LayerPattern,
+    OneByOnePattern,
+    RandomFadePattern,
+    RandomSparklesPattern,
+    RGBPattern,
+    SequentialFadePattern,
+    TwinklePattern,
+    WhooshPattern,
+)
 from .tree import RGBXmasTree
-from .patterns import FadePattern, FlasherPattern, HueCyclePattern, LayerPattern, OneByOnePattern, RandomFadePattern, RandomSparklesPattern, RGBPattern, SequentialFadePattern, TwinklePattern, WhooshPattern
+
 
 class TreeManager:
     def __init__(self):
@@ -31,7 +44,7 @@ class TreeManager:
 
         # Inject the tree instance into the pattern constructor
         instance = pattern_class(self.tree)
-        
+
         # Start the pattern's run method as a task
         self.active_task = asyncio.create_task(instance.run())
 

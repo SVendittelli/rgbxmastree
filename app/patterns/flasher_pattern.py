@@ -5,11 +5,19 @@ from random import choice
 
 from ..pixels import PixelRange
 
-colors = [Color('red'), Color('green'), Color('blue'), Color('purple'), Color('orange'), Color('navy')]
+colors = [
+    Color("red"),
+    Color("green"),
+    Color("blue"),
+    Color("purple"),
+    Color("orange"),
+    Color("navy"),
+]
+
 
 class FlasherPattern:
     def __init__(self, tree):
-        self.tree= tree
+        self.tree = tree
 
     async def run(self):
         while True:

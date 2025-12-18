@@ -1,17 +1,27 @@
 import asyncio
+from random import choice
 
 from colorzero import Color
-from random import choice
 
 from ..pixels import PixelRange
 
-colors = [Color('red'), Color('green'), Color('blue'), Color('purple'), Color('orange'), Color('navy')]
+colors = [
+    Color("red"),
+    Color("green"),
+    Color("blue"),
+    Color("purple"),
+    Color("orange"),
+    Color("navy"),
+]
+
 
 class TwinklePattern:
     def __init__(self, tree):
-        self.tree= tree
+        self.tree = tree
 
     async def run(self):
         while True:
-            self.tree.value = [choice(colors) if i != 3 else Color('gold') for i in PixelRange.ALL]
+            self.tree.value = [
+                choice(colors) if i != 3 else Color("gold") for i in PixelRange.ALL
+            ]
             await asyncio.sleep(0.2)

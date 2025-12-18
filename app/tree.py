@@ -1,6 +1,7 @@
-from gpiozero import SPIDevice, SourceMixin
-from colorzero import Color
 from statistics import mean
+
+from colorzero import Color
+from gpiozero import SourceMixin, SPIDevice
 
 from .pixels import Pixel
 
@@ -8,7 +9,9 @@ from .pixels import Pixel
 class RGBXmasTree(SourceMixin, SPIDevice):
     """The xmas tree with 25 lights"""
 
-    def __init__(self, pixels=25, brightness=0.1, mosi_pin=12, clock_pin=25, *args, **kwargs):
+    def __init__(
+        self, pixels=25, brightness=0.1, mosi_pin=12, clock_pin=25, *args, **kwargs
+    ):
         """
         Parameters
         ----------
@@ -18,7 +21,9 @@ class RGBXmasTree(SourceMixin, SPIDevice):
             The brightness of the lights (default is 0.1, min 0, max 1)
         """
 
-        super(RGBXmasTree, self).__init__(mosi_pin=mosi_pin, clock_pin=clock_pin, *args, **kwargs)
+        super(RGBXmasTree, self).__init__(
+            mosi_pin=mosi_pin, clock_pin=clock_pin, *args, **kwargs
+        )
         self._all = [Pixel(parent=self, index=i) for i in range(pixels)]
         self._value = [(0, 0, 0)] * pixels
         self.brightness = brightness
@@ -62,11 +67,11 @@ class RGBXmasTree(SourceMixin, SPIDevice):
 
     @value.setter
     def value(self, value):
-        start_of_frame = [0]*4
-        end_of_frame = [0]*5
-                     # SSSBBBBB (start, brightness)
+        start_of_frame = [0] * 4
+        end_of_frame = [0] * 5
+        #              SSSBBBBB (start, brightness)
         brightness = 0b11100000 | self._brightness_bits
-        pixels = [[int(255*v) for v in p] for p in value]
+        pixels = [[int(255 * v) for v in p] for p in value]
         pixels = [[brightness, b, g, r] for r, g, b in pixels]
         pixels = [i for p in pixels for i in p]
         data = start_of_frame + pixels + end_of_frame
@@ -92,7 +97,7 @@ class RGBXmasTree(SourceMixin, SPIDevice):
         self.value = temp
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     tree = RGBXmasTree()
-    
+
     tree.on()
