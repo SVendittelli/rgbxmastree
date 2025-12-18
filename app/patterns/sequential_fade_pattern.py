@@ -1,9 +1,9 @@
-#!/usr/bin/python3
+import asyncio
 
-from patterns.pattern_interface import PatternInterface
-from .tree import RGBXmasTree, PixelRange
 from colorzero import Color
 from random import randrange
+
+from ..pixels import PixelRange
 
 steps = 100
 colors = [Color('red'), Color('green'), Color('blue')]
@@ -20,19 +20,12 @@ for i in PixelRange.NOT_STAR:
         arr[i] += gradients[(i+j) % num_colors]
 trans = [*zip(*arr)] # transpose
 
-class Pattern(PatternInterface):
-    def apply(self, tree, thread):
-        for val in trans:
-            if (thread.stopped()):
-                break
-            tree.value = val
+class SequentialFadePattern:
+    def __init__(self, tree):
+        self.tree= tree
 
-if __name__ == '__main__':
-    tree = RGBXmasTree()
-
-    try:
+    async def run(self):
         while True:
             for val in trans:
-                tree.value = val
-    except (KeyboardInterrupt, SystemExit):
-        tree.off()
+                self.tree.value = val
+                await asyncio.sleep(0.1)

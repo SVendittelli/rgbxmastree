@@ -1,7 +1,0 @@
-{
-    "python.pythonPath": "/home/pi/projects/rgbxmastree/venv/bin/python3",
-    "python.linting.enabled": true,
-    "cSpell.words": [
-        "jsonify"
-    ]
-}

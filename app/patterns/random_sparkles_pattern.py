@@ -1,0 +1,22 @@
+import asyncio
+
+from colorzero import Hue
+from random import random
+
+def random_color():
+    r = random()
+    g = random()
+    b = random()
+    return (r, g, b)
+
+def random_colors(n):
+    return [random_color() for i in range(n)]
+
+class RandomSparklesPattern:
+    def __init__(self, tree):
+        self.tree= tree
+
+    async def run(self):
+        while True:
+            self.tree.value = random_colors(25)
+            await asyncio.sleep(0.1)
