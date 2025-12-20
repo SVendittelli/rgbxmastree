@@ -26,4 +26,4 @@ class TwinklePattern:
             self.tree.value = [
                 choice(colors) if i != 3 else Color("gold") for i in PixelRange.ALL
             ]
-            await asyncio.sleep(0.2)
+            await asyncio.sleep(1)
